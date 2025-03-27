@@ -1,0 +1,4 @@
+﻿interface IPowerNotifier
+{
+    void NotifyLowBattery();
+}

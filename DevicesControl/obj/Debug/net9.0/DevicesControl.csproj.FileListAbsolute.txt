@@ -1,0 +1,14 @@
+D:\study\CSharp\DevicesControl\DevicesControl\bin\Debug\net9.0\DevicesControl.exe
+D:\study\CSharp\DevicesControl\DevicesControl\bin\Debug\net9.0\DevicesControl.deps.json
+D:\study\CSharp\DevicesControl\DevicesControl\bin\Debug\net9.0\DevicesControl.runtimeconfig.json
+D:\study\CSharp\DevicesControl\DevicesControl\bin\Debug\net9.0\DevicesControl.dll
+D:\study\CSharp\DevicesControl\DevicesControl\bin\Debug\net9.0\DevicesControl.pdb
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.GeneratedMSBuildEditorConfig.editorconfig
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.AssemblyInfoInputs.cache
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.AssemblyInfo.cs
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.csproj.CoreCompileInputs.cache
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.dll
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\refint\DevicesControl.dll
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.pdb
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.genruntimeconfig.cache
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\ref\DevicesControl.dll
