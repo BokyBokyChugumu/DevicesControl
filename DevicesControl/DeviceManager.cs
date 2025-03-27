@@ -6,21 +6,21 @@ using System.Text.RegularExpressions;
 
 public class DeviceManager
 {
-    private List<Device> devices; // Теперь принимаем список устройств извне
+    private List<Device> devices;
     private const int MaxDevices = 15;
 
-    // Конструктор теперь принимает список устройств
+    
     public DeviceManager(List<Device> initialDevices)
     {
         devices = initialDevices ?? new List<Device>();
         if (devices.Count > MaxDevices)
         {
-            devices = devices.Take(MaxDevices).ToList(); // Обрезаем, если загружено больше, чем MaxDevices
+            devices = devices.Take(MaxDevices).ToList(); 
         }
     }
 
 
-    public static DeviceManager LoadFromFile(string filePath, IDeviceFactory factory) // Статический фабричный метод
+    public static DeviceManager LoadFromFile(string filePath, IDeviceFactory factory)
     {
         List<Device> devices = factory.LoadDevices(filePath);
         return new DeviceManager(devices);

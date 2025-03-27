@@ -1,11 +1,26 @@
-﻿using System;
+﻿namespace DevicesControl;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public class FileDeviceFactory : IDeviceFactory
 {
     private const int MaxDevices = 15;
+    private readonly Dictionary<string, IDeviceCreator> _deviceCreators; // Словарь для регистрации
+
+    public FileDeviceFactory()
+    {
+        // Регистрация фабрик устройств в конструкторе
+        _deviceCreators = new Dictionary<string, IDeviceCreator>
+        {
+            { "SW", new SmartwatchCreator() },
+            { "P", new ComputerCreator() },
+            { "ED", new EmbeddedDeviceCreator() }
+        };
+    }
 
     public List<Device> LoadDevices(string filePath)
     {
@@ -16,7 +31,7 @@ public class FileDeviceFactory : IDeviceFactory
             throw new FileNotFoundException(filePath);
         }
 
-        Console.WriteLine("Loading devices from file using FileDeviceFactory...");
+        Console.WriteLine("Loading devices from file using FileDeviceFactory (Strategy Pattern)...");
         var lines = File.ReadAllLines(filePath);
 
         foreach (var line in lines)
@@ -29,39 +44,19 @@ public class FileDeviceFactory : IDeviceFactory
                 if (parts.Length < 2) continue;
 
                 string deviceId = parts[0];
-                string type = deviceId.Split('-')[0];
-                string name = parts[1];
+                string typePrefix = deviceId.Split('-')[0];
 
-                switch (type)
+                if (_deviceCreators.TryGetValue(typePrefix, out var creator)) // Используем словарь для поиска фабрики
                 {
-                    case "SW":
-                        if (parts.Length != 4) continue;
-                        bool swTurnedOn;
-                        if (!bool.TryParse(parts[2], out swTurnedOn)) continue;
-                        if (!int.TryParse(parts[3].TrimEnd('%'), out int battery) || battery < 0 || battery > 100) continue;
-                        devices.Add(new Smartwatch(deviceId, name, swTurnedOn, battery));
-                        break;
-
-                    case "P":
-                        if (parts.Length > 4 || parts.Length < 3) continue;
-                        bool pcTurnedOn;
-                        if (!bool.TryParse(parts[2], out pcTurnedOn)) continue;
-                        string os = parts.Length == 4 && parts[3] != "null" ? parts[3] : null;
-                        devices.Add(new PersonalComputer(deviceId, name, pcTurnedOn, os));
-                        break;
-
-                    case "ED":
-                        if (parts.Length != 5) continue;
-                        bool edTurnedOn;
-                        if (!bool.TryParse(parts[2], out edTurnedOn)) continue;
-                        string ip = parts[3];
-                        string networkName = parts[4];
-                        if (!Regex.IsMatch(ip, @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")) continue;
-                        devices.Add(new EmbeddedDevice(deviceId, name, edTurnedOn, ip, networkName));
-                        break;
-
-                    default:
-                        continue;
+                    Device device = creator.CreateDevice(parts);
+                    if (device != null)
+                    {
+                        devices.Add(device);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Неизвестный тип устройства: {typePrefix} в строке: {line}");
                 }
             }
             catch (Exception ex)

@@ -1,11 +1,13 @@
-﻿using System;
+﻿namespace DevicesControl;
+
+using System;
 
 class Program
 {
     static void Main()
     {
         string filePath = "D:\\study\\CSharp\\DevicesControl\\DevicesControl\\devices.txt";
-        IDeviceFactory factory = new FileDeviceFactory(); // Создаем фабрику
+        IDeviceFactory factory = new FileDeviceFactory(); 
         DeviceManager manager = DeviceManager.LoadFromFile(filePath, factory);
 
         Console.WriteLine("Devices Loaded:");
