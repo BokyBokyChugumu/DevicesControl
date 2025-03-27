@@ -12,3 +12,4 @@ D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\refint\DevicesCon
 D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.pdb
 D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.genruntimeconfig.cache
 D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\ref\DevicesControl.dll
+D:\study\CSharp\DevicesControl\DevicesControl\obj\Debug\net9.0\DevicesControl.sourcelink.json

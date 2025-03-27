@@ -5,7 +5,8 @@ class Program
     static void Main()
     {
         string filePath = "D:\\study\\CSharp\\DevicesControl\\DevicesControl\\devices.txt";
-        DeviceManager manager = new DeviceManager(filePath);
+        IDeviceFactory factory = new FileDeviceFactory(); // Создаем фабрику
+        DeviceManager manager = DeviceManager.LoadFromFile(filePath, factory);
 
         Console.WriteLine("Devices Loaded:");
         manager.ShowAllDevices();

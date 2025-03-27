@@ -37,7 +37,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, ""); // Start with an empty file
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
         Smartwatch smartwatch = new Smartwatch("SW-1", "TestWatch", false, 80); // Changed ID to string
 
         // Act
@@ -52,7 +52,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "");
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
         for (int i = 1; i <= 15; i++)
         {
             manager.AddDevice(new Smartwatch($"SW-{i}", $"TestWatch{i}", false, 80)); // Changed ID to string
@@ -67,7 +67,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,false,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.RemoveDevice("SW-1"); // Changed ID to string
@@ -81,7 +81,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,false,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
         int initialCount = manager.GetDeviceCount();
 
         // Act
@@ -96,7 +96,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,false,25%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOnDevice("SW-1"); // Changed ID to string
@@ -114,7 +114,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "P-1,TestPC,false,Windows"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOnDevice("P-1"); // Changed ID to string
@@ -131,7 +131,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "ED-1,TestED,False,192.168.1.10,MD Ltd.Wifi"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOnDevice("ED-1"); // Changed ID to string
@@ -147,7 +147,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "ED-1,TestED,False,192.168.1.10,HomeWifi"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOnDevice("ED-1"); // Changed ID to string // ConnectionException is caught and message printed, but no exception propagates
@@ -164,7 +164,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "");
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOnDevice("SW-999"); // Non-existent ID as string
@@ -178,7 +178,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,true,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOffDevice("SW-1"); // Changed ID to string
@@ -194,7 +194,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "");
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.TurnOffDevice("SW-999"); // Non-existent ID as string
@@ -208,7 +208,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,Watch1,false,80%\nP-1,PC1,false,Windows"); // IDs in file are string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act & Assert
         Assert.Equal(2, manager.GetDeviceCount());
@@ -225,7 +225,7 @@ public class DeviceManagerUnitTests
         string nonExistentFilePath = "non_existent_file.txt";
 
         // Act & Assert
-        Assert.Throws<FileNotFoundException>(() => new DeviceManager(nonExistentFilePath));
+        Assert.Throws<FileNotFoundException>(() => DeviceManager.LoadFromFile(nonExistentFilePath, new FileDeviceFactory()));
     }
 
     [Fact]
@@ -240,7 +240,7 @@ public class DeviceManagerUnitTests
         File.WriteAllText(_testFilePath, fileContent);
 
         // Act
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Assert
         Assert.Equal(15, manager.GetDeviceCount()); // Should load only up to MaxDevices (15)
@@ -252,7 +252,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,OldName,false,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.EditDevice("SW-1", "Name", "NewSmartwatchName"); // Changed ID to string
@@ -268,7 +268,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "P-1,TestPC,false,null"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.EditDevice("P-1", "OperatingSystem", "MacOS"); // Changed ID to string
@@ -284,7 +284,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "ED-1,TestED,False,192.168.1.1,OldNetwork"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act
         manager.EditDevice("ED-1", "NetworkName", "NewNetworkName"); // Changed ID to string
@@ -300,7 +300,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "");
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => manager.EditDevice("SW-999", "Name", "NewName")); // Changed ID to string
@@ -311,7 +311,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,false,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => manager.EditDevice("SW-1", "NonExistentProperty", "newValue")); // Changed ID to string
@@ -322,7 +322,7 @@ public class DeviceManagerUnitTests
     {
         // Arrange
         File.WriteAllText(_testFilePath, "SW-1,TestWatch,false,80%"); // ID in file is string already
-        DeviceManager manager = new DeviceManager(_testFilePath);
+        DeviceManager manager = DeviceManager.LoadFromFile(_testFilePath, new FileDeviceFactory());
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => manager.EditDevice("SW-1", "BatteryPercentage", "invalid_value")); // Changed ID to string // BatteryPercentage is int, but passing string

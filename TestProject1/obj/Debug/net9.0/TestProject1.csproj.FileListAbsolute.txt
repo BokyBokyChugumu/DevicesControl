@@ -103,3 +103,4 @@ D:\study\CSharp\DevicesControl\TestProject1\obj\Debug\net9.0\refint\TestProject1
 D:\study\CSharp\DevicesControl\TestProject1\obj\Debug\net9.0\TestProject1.pdb
 D:\study\CSharp\DevicesControl\TestProject1\obj\Debug\net9.0\TestProject1.genruntimeconfig.cache
 D:\study\CSharp\DevicesControl\TestProject1\obj\Debug\net9.0\ref\TestProject1.dll
+D:\study\CSharp\DevicesControl\TestProject1\obj\Debug\net9.0\TestProject1.sourcelink.json
